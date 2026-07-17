@@ -31,9 +31,10 @@ export declare class PosOrdersController {
             id: number;
             quantity: number;
             price: number;
-            product_id: number;
-            order_id: number;
             special_inst: string | null;
+            order_id: number;
+            product_id: number;
+            variant_id: number | null;
         })[];
     } & {
         status: string;
@@ -98,9 +99,10 @@ export declare class PosOrdersController {
             id: number;
             quantity: number;
             price: number;
-            product_id: number;
-            order_id: number;
             special_inst: string | null;
+            order_id: number;
+            product_id: number;
+            variant_id: number | null;
         })[];
         kot: {
             status: string;
@@ -158,9 +160,10 @@ export declare class PosOrdersController {
                 id: number;
                 quantity: number;
                 price: number;
-                product_id: number;
-                order_id: number;
                 special_inst: string | null;
+                order_id: number;
+                product_id: number;
+                variant_id: number | null;
             })[];
         } & {
             status: string;

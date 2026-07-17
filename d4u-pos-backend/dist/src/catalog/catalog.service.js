@@ -38,7 +38,7 @@ let CatalogService = class CatalogService {
                     { categories: { some: { menu: { stores: { some: { id: store_id } } } } } }
                 ]
             },
-            include: { categories: true },
+            include: { categories: true, variants: true },
             orderBy: { id: 'asc' },
         });
         return { categories, products, synced_at: new Date().toISOString() };
@@ -160,12 +160,12 @@ let CatalogService = class CatalogService {
     async getProducts(store_id) {
         return this.prisma.product.findMany({
             where: { is_active: true },
-            include: { categories: true, assigned_stores: true },
+            include: { categories: true, assigned_stores: true, variants: true },
             orderBy: { createdAt: 'desc' }
         });
     }
     async createProduct(data) {
-        const { assigned_store_ids, category_ids, ...productData } = data;
+        const { assigned_store_ids, category_ids, variants, ...productData } = data;
         return this.prisma.product.create({
             data: {
                 ...productData,
@@ -175,16 +175,19 @@ let CatalogService = class CatalogService {
                 },
                 assigned_stores: {
                     connect: (assigned_store_ids || []).map(id => ({ id }))
-                }
+                },
+                variants: variants && variants.length > 0 ? {
+                    create: variants.map(v => ({ name: v.name, price: v.price }))
+                } : undefined
             },
-            include: { assigned_stores: true, categories: true }
+            include: { assigned_stores: true, categories: true, variants: true }
         });
     }
     async updateProduct(id, data) {
         const product = await this.prisma.product.findUnique({ where: { id } });
         if (!product)
             throw new common_1.NotFoundException(`Product #${id} not found`);
-        const { assigned_store_ids, category_ids, ...updateData } = data;
+        const { assigned_store_ids, category_ids, variants, ...updateData } = data;
         const updatePayload = { ...updateData };
         if (assigned_store_ids !== undefined) {
             updatePayload.assigned_stores = { set: assigned_store_ids.map(sid => ({ id: sid })) };
@@ -192,10 +195,18 @@ let CatalogService = class CatalogService {
         if (category_ids !== undefined) {
             updatePayload.categories = { set: category_ids.map(cid => ({ id: cid })) };
         }
+        if (variants !== undefined) {
+            await this.prisma.productVariant.deleteMany({ where: { product_id: id } });
+            if (variants.length > 0) {
+                updatePayload.variants = {
+                    create: variants.map(v => ({ name: v.name, price: v.price }))
+                };
+            }
+        }
         return this.prisma.product.update({
             where: { id },
             data: updatePayload,
-            include: { assigned_stores: true, categories: true }
+            include: { assigned_stores: true, categories: true, variants: true }
         });
     }
     async approveProduct(id) {

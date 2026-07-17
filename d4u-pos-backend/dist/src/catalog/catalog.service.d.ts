@@ -16,6 +16,12 @@ export declare class CatalogService {
                 name: string;
                 menu_id: number | null;
             }[];
+            variants: {
+                id: number;
+                name: string;
+                price: number;
+                product_id: number;
+            }[];
         } & {
             status: string;
             id: number;
@@ -204,6 +210,12 @@ export declare class CatalogService {
             name: string;
             menu_id: number | null;
         }[];
+        variants: {
+            id: number;
+            name: string;
+            price: number;
+            product_id: number;
+        }[];
     } & {
         status: string;
         id: number;
@@ -228,6 +240,10 @@ export declare class CatalogService {
         image_url?: string;
         status?: string;
         assigned_store_ids?: number[];
+        variants?: {
+            name: string;
+            price: number;
+        }[];
     }): Promise<{
         assigned_stores: {
             id: number;
@@ -243,6 +259,12 @@ export declare class CatalogService {
             store_id: number;
             name: string;
             menu_id: number | null;
+        }[];
+        variants: {
+            id: number;
+            name: string;
+            price: number;
+            product_id: number;
         }[];
     } & {
         status: string;
@@ -268,6 +290,10 @@ export declare class CatalogService {
         status?: string;
         assigned_store_ids?: number[];
         category_ids?: number[];
+        variants?: {
+            name: string;
+            price: number;
+        }[];
     }): Promise<{
         assigned_stores: {
             id: number;
@@ -283,6 +309,12 @@ export declare class CatalogService {
             store_id: number;
             name: string;
             menu_id: number | null;
+        }[];
+        variants: {
+            id: number;
+            name: string;
+            price: number;
+            product_id: number;
         }[];
     } & {
         status: string;
