@@ -1,0 +1,127 @@
+import { OnlineOrdersService } from './online-orders.service';
+export declare class OnlineOrdersController {
+    private readonly service;
+    constructor(service: OnlineOrdersService);
+    getOrders(phone?: string, store_id?: string): Promise<{
+        status: string;
+        id: number;
+        store_id: number;
+        createdAt: Date;
+        customer: string;
+        orderId: number | null;
+        kdsStatus: string;
+        type: string;
+        source: string;
+        customerPhone: string;
+        customerAddress: string;
+        items: string;
+        totalAmount: string;
+        notes: string;
+        prepTimeMinutes: number;
+        estimatedReadyAt: string;
+        timePlaced: string;
+        riderAssigned: boolean;
+        feedback: import("@prisma/client/runtime/library").JsonValue | null;
+        delivery: import("@prisma/client/runtime/library").JsonValue | null;
+    }[]>;
+    getOrder(id: string): Promise<{
+        status: string;
+        id: number;
+        store_id: number;
+        createdAt: Date;
+        customer: string;
+        orderId: number | null;
+        kdsStatus: string;
+        type: string;
+        source: string;
+        customerPhone: string;
+        customerAddress: string;
+        items: string;
+        totalAmount: string;
+        notes: string;
+        prepTimeMinutes: number;
+        estimatedReadyAt: string;
+        timePlaced: string;
+        riderAssigned: boolean;
+        feedback: import("@prisma/client/runtime/library").JsonValue | null;
+        delivery: import("@prisma/client/runtime/library").JsonValue | null;
+    }>;
+    createOrder(body: any): Promise<{
+        success: boolean;
+        order: {
+            status: string;
+            id: number;
+            store_id: number;
+            createdAt: Date;
+            customer: string;
+            orderId: number | null;
+            kdsStatus: string;
+            type: string;
+            source: string;
+            customerPhone: string;
+            customerAddress: string;
+            items: string;
+            totalAmount: string;
+            notes: string;
+            prepTimeMinutes: number;
+            estimatedReadyAt: string;
+            timePlaced: string;
+            riderAssigned: boolean;
+            feedback: import("@prisma/client/runtime/library").JsonValue | null;
+            delivery: import("@prisma/client/runtime/library").JsonValue | null;
+        };
+    }>;
+    updateOrderStatus(id: string, body: any): Promise<{
+        success: boolean;
+        order: {
+            status: string;
+            id: number;
+            store_id: number;
+            createdAt: Date;
+            customer: string;
+            orderId: number | null;
+            kdsStatus: string;
+            type: string;
+            source: string;
+            customerPhone: string;
+            customerAddress: string;
+            items: string;
+            totalAmount: string;
+            notes: string;
+            prepTimeMinutes: number;
+            estimatedReadyAt: string;
+            timePlaced: string;
+            riderAssigned: boolean;
+            feedback: import("@prisma/client/runtime/library").JsonValue | null;
+            delivery: import("@prisma/client/runtime/library").JsonValue | null;
+        };
+    }>;
+    postFeedback(id: string, body: any): Promise<{
+        success: boolean;
+        order: {
+            status: string;
+            id: number;
+            store_id: number;
+            createdAt: Date;
+            customer: string;
+            orderId: number | null;
+            kdsStatus: string;
+            type: string;
+            source: string;
+            customerPhone: string;
+            customerAddress: string;
+            items: string;
+            totalAmount: string;
+            notes: string;
+            prepTimeMinutes: number;
+            estimatedReadyAt: string;
+            timePlaced: string;
+            riderAssigned: boolean;
+            feedback: import("@prisma/client/runtime/library").JsonValue | null;
+            delivery: import("@prisma/client/runtime/library").JsonValue | null;
+        };
+    }>;
+    acceptOnlineOrder(id: string): Promise<{
+        success: boolean;
+    }>;
+}
