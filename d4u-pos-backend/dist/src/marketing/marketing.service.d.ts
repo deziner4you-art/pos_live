@@ -66,6 +66,7 @@ export declare class MarketingService {
             scheduled_at: Date | null;
             published_facebook: boolean;
             published_instagram: boolean;
+            published_tv: boolean;
         };
     }>;
     getCampaigns(store_id?: number): Promise<({
@@ -113,6 +114,7 @@ export declare class MarketingService {
         scheduled_at: Date | null;
         published_facebook: boolean;
         published_instagram: boolean;
+        published_tv: boolean;
     })[]>;
     updateCampaign(id: number, data: any): Promise<{
         target_stores: {
@@ -159,6 +161,7 @@ export declare class MarketingService {
         scheduled_at: Date | null;
         published_facebook: boolean;
         published_instagram: boolean;
+        published_tv: boolean;
     }>;
     deleteCampaign(id: number): Promise<{
         status: string;
@@ -176,6 +179,7 @@ export declare class MarketingService {
         scheduled_at: Date | null;
         published_facebook: boolean;
         published_instagram: boolean;
+        published_tv: boolean;
     }>;
     createScheduledDiscount(body: any): Promise<{
         id: number;

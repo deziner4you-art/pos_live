@@ -65,7 +65,9 @@ let MarketingService = class MarketingService {
                 image_url: body.image_url || null,
                 published_pos: body.published_pos === 'true' || body.published_pos === true,
                 published_web: body.published_web === 'true' || body.published_web === true,
-                published_social: body.published_social === 'true' || body.published_social === true,
+                published_tv: body.published_tv === 'true' || body.published_tv === true,
+                published_facebook: body.published_facebook === 'true' || body.published_facebook === true,
+                published_instagram: body.published_instagram === 'true' || body.published_instagram === true,
                 status: body.schedule_for_later ? 'scheduled' : 'active',
                 scheduled_at: body.schedule_for_later && body.scheduled_at ? new Date(body.scheduled_at) : null,
                 target_stores: {
@@ -82,20 +84,24 @@ let MarketingService = class MarketingService {
         });
         let fbSuccess = false;
         let igSuccess = false;
-        if (campaign.published_social && campaign.status === 'active') {
-            try {
-                console.log(`[SOCIAL MEDIA] Publishing "${campaign.title}" to Facebook Graph API.`);
-                fbSuccess = true;
+        if (campaign.status === 'active') {
+            if (body.published_facebook === 'true' || body.published_facebook === true) {
+                try {
+                    console.log(`[SOCIAL MEDIA] Publishing "${campaign.title}" to Facebook Graph API.`);
+                    fbSuccess = true;
+                }
+                catch (e) {
+                    console.error('FB error', e);
+                }
             }
-            catch (e) {
-                console.error('FB error', e);
-            }
-            try {
-                console.log(`[SOCIAL MEDIA] Publishing "${campaign.title}" to Instagram Graph API.`);
-                igSuccess = true;
-            }
-            catch (e) {
-                console.error('IG error', e);
+            if (body.published_instagram === 'true' || body.published_instagram === true) {
+                try {
+                    console.log(`[SOCIAL MEDIA] Publishing "${campaign.title}" to Instagram Graph API.`);
+                    igSuccess = true;
+                }
+                catch (e) {
+                    console.error('IG error', e);
+                }
             }
             if (fbSuccess || igSuccess) {
                 await this.prisma.marketingCampaign.update({
@@ -129,6 +135,18 @@ let MarketingService = class MarketingService {
     async updateCampaign(id, data) {
         const { id: _, createdAt, updatedAt, target_store_ids, target_category_ids, target_product_ids, ...updateData } = data;
         const updatePayload = { ...updateData };
+        if (updateData.published_pos !== undefined)
+            updatePayload.published_pos = updateData.published_pos === 'true' || updateData.published_pos === true;
+        if (updateData.published_web !== undefined)
+            updatePayload.published_web = updateData.published_web === 'true' || updateData.published_web === true;
+        if (updateData.published_tv !== undefined)
+            updatePayload.published_tv = updateData.published_tv === 'true' || updateData.published_tv === true;
+        if (updateData.published_facebook !== undefined)
+            updatePayload.published_facebook = updateData.published_facebook === 'true' || updateData.published_facebook === true;
+        if (updateData.published_instagram !== undefined)
+            updatePayload.published_instagram = updateData.published_instagram === 'true' || updateData.published_instagram === true;
+        if (updateData.discount_pct !== undefined)
+            updatePayload.discount_pct = Number(updateData.discount_pct);
         if (target_store_ids !== undefined) {
             updatePayload.target_stores = { set: target_store_ids.map((id) => ({ id: Number(id) })) };
         }

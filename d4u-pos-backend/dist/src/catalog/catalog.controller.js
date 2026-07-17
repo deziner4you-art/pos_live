@@ -14,6 +14,9 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CatalogController = void 0;
 const common_1 = require("@nestjs/common");
+const platform_express_1 = require("@nestjs/platform-express");
+const multer_1 = require("multer");
+const path_1 = require("path");
 const catalog_service_1 = require("./catalog.service");
 let CatalogController = class CatalogController {
     service;
@@ -23,6 +26,11 @@ let CatalogController = class CatalogController {
     syncCatalog(store_id) {
         console.log(`[CATALOG SYNC] Store: ${store_id}`);
         return this.service.syncCatalogForPos(Number(store_id));
+    }
+    uploadImage(file) {
+        if (!file)
+            return { imageUrl: null };
+        return { imageUrl: `/uploads/${file.filename}` };
     }
     getMenus() {
         return this.service.getMenus();
@@ -86,6 +94,22 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], CatalogController.prototype, "syncCatalog", null);
+__decorate([
+    (0, common_1.Post)('upload'),
+    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('image', {
+        storage: (0, multer_1.diskStorage)({
+            destination: './uploads',
+            filename: (req, file, cb) => {
+                const randomName = Array(32).fill(null).map(() => (Math.round(Math.random() * 16)).toString(16)).join('');
+                cb(null, `${randomName}${(0, path_1.extname)(file.originalname)}`);
+            }
+        })
+    })),
+    __param(0, (0, common_1.UploadedFile)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], CatalogController.prototype, "uploadImage", null);
 __decorate([
     (0, common_1.Get)('menus'),
     __metadata("design:type", Function),

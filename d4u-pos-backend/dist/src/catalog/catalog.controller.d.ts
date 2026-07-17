@@ -37,6 +37,11 @@ export declare class CatalogController {
         })[];
         synced_at: string;
     }>;
+    uploadImage(file: any): {
+        imageUrl: null;
+    } | {
+        imageUrl: string;
+    };
     getMenus(): Promise<({
         stores: {
             id: number;

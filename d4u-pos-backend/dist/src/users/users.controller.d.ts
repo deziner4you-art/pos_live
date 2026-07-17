@@ -28,6 +28,7 @@ export declare class UsersController {
         role_id: number;
         hashedPin: string;
         module_permissions: import("@prisma/client/runtime/library").JsonValue | null;
+        rider_details: import("@prisma/client/runtime/library").JsonValue | null;
     })[]>;
     getRoles(): Promise<{
         id: number;
@@ -69,6 +70,7 @@ export declare class UsersController {
         role_id: number;
         hashedPin: string;
         module_permissions: import("@prisma/client/runtime/library").JsonValue | null;
+        rider_details: import("@prisma/client/runtime/library").JsonValue | null;
     }>;
     updateUser(id: number, body: {
         name?: string;
@@ -104,6 +106,7 @@ export declare class UsersController {
         role_id: number;
         hashedPin: string;
         module_permissions: import("@prisma/client/runtime/library").JsonValue | null;
+        rider_details: import("@prisma/client/runtime/library").JsonValue | null;
     }>;
     deleteUser(id: number): Promise<{
         id: number;
@@ -116,6 +119,7 @@ export declare class UsersController {
         role_id: number;
         hashedPin: string;
         module_permissions: import("@prisma/client/runtime/library").JsonValue | null;
+        rider_details: import("@prisma/client/runtime/library").JsonValue | null;
     }>;
     uploadFile(file: any): {
         url: string;
