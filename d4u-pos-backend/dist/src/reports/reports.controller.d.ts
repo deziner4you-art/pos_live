@@ -91,9 +91,9 @@ export declare class ReportsController {
             id: number;
             quantity: number;
             price: number;
+            product_id: number;
             special_inst: string | null;
             order_id: number;
-            product_id: number;
             variant_id: number | null;
         })[];
         approver: {

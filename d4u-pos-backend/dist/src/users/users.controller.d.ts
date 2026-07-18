@@ -44,6 +44,7 @@ export declare class UsersController {
         brand_id?: number;
         image_url?: string;
         module_permissions?: Record<string, boolean>;
+        rider_details?: any;
     }): Promise<{
         store: {
             id: number;
@@ -80,6 +81,7 @@ export declare class UsersController {
         store_id?: number;
         image_url?: string;
         module_permissions?: Record<string, boolean>;
+        rider_details?: any;
     }): Promise<{
         store: {
             id: number;

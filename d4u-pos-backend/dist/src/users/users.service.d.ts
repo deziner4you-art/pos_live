@@ -72,6 +72,7 @@ export declare class UsersService {
         brand_id?: number;
         image_url?: string;
         module_permissions?: Record<string, boolean>;
+        rider_details?: any;
     }): Promise<{
         store: {
             id: number;
@@ -108,6 +109,7 @@ export declare class UsersService {
         store_id?: number;
         image_url?: string;
         module_permissions?: Record<string, boolean>;
+        rider_details?: any;
     }): Promise<{
         store: {
             id: number;

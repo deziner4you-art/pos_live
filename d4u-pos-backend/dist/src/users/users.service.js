@@ -33,6 +33,13 @@ let UsersService = class UsersService {
         return this.prisma.role.findMany({ orderBy: { id: 'asc' } });
     }
     async createUser(data) {
+        if (data.role_id === 0) {
+            let riderRole = await this.prisma.role.findFirst({ where: { name: 'Rider' } });
+            if (!riderRole) {
+                riderRole = await this.prisma.role.create({ data: { id: 11, name: 'Rider', permissions: {} } });
+            }
+            data.role_id = riderRole.id;
+        }
         const existing = await this.prisma.user.findUnique({ where: { phone: data.phone } });
         if (existing)
             throw new common_1.BadRequestException(`Phone ${data.phone} is already registered`);
@@ -40,12 +47,13 @@ let UsersService = class UsersService {
             data: {
                 name: data.name,
                 phone: data.phone,
-                hashedPin: data.pin,
+                hashedPin: data.pin || '1234',
                 role_id: data.role_id,
                 store_id: data.store_id || null,
                 brand_id: data.brand_id || 1,
                 image_url: data.image_url || null,
                 module_permissions: data.module_permissions || {},
+                rider_details: data.rider_details || null,
             },
             include: { role: true, store: true }
         });
@@ -54,6 +62,13 @@ let UsersService = class UsersService {
         const user = await this.prisma.user.findUnique({ where: { id } });
         if (!user)
             throw new common_1.NotFoundException(`User #${id} not found`);
+        if (data.role_id === 0) {
+            let riderRole = await this.prisma.role.findFirst({ where: { name: 'Rider' } });
+            if (!riderRole) {
+                riderRole = await this.prisma.role.create({ data: { id: 11, name: 'Rider', permissions: {} } });
+            }
+            data.role_id = riderRole.id;
+        }
         const updateData = {};
         if (data.name !== undefined)
             updateData.name = data.name;
@@ -69,6 +84,8 @@ let UsersService = class UsersService {
             updateData.image_url = data.image_url;
         if (data.module_permissions !== undefined)
             updateData.module_permissions = data.module_permissions;
+        if (data.rider_details !== undefined)
+            updateData.rider_details = data.rider_details;
         return this.prisma.user.update({
             where: { id },
             data: updateData,
